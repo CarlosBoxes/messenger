@@ -168,8 +168,8 @@ function get_img(req,res){
 function editar_config(req,res){
     let id = req.params['id']
     var data = req.body
-
-    if (req.files){
+    
+    if (req.files.imagen){
         //SI IMAGEN, SI CONTRASEÑA
         if(data.password){
                 console.log(1)

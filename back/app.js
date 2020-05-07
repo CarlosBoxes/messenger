@@ -11,7 +11,21 @@ var server = require ('http').createServer(app)
 var io = require('socket.io')(server)
 
 io.on('connection',function(socket){
-    console.log('Usuario Conectado')
+    socket.on('save-message',function(new_msm){
+        io.emit('new-message',{message: new_msm})
+    })
+
+    socket.on('disconnect', function(){
+        console.log('user disconeccted')
+    })
+
+    socket.on('save-user', function(user){
+        io.emit('new-user',{user:user})
+    })
+
+    socket.on('save-users', function(users){
+        io.emit('new-users',{users})
+    })
 })
 
 //DATABASE CONNECTION
@@ -22,7 +36,7 @@ mongoose.connect('mongodb://localhost:27017/messengerdb',(err)=> {
     else
     {
         console.log('Conectado a la DB')
-        app.listen(port,function(){
+        server.listen(port,function(){
             console.log('estas conectado al puerto:' + port)
         })
     }
